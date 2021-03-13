@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "892477905274",
+    "project_id": "wasteagram-a4b76",
+    "storage_bucket": "wasteagram-a4b76.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892477905274:android:6f77e85c8bd7efe0f89ec3",
+        "android_client_info": {
+          "package_name": "edu.oregonstate.castanap.wasteagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "892477905274-eroau17upde2vj78hgpgqaev5be7b8kl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBSipXon6XDxr9SFSJjuqAvuZHgrX2utA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "892477905274-eroau17upde2vj78hgpgqaev5be7b8kl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
