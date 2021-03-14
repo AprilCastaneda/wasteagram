@@ -86,13 +86,17 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString() +
             '.' +
             basename(widget.image.path);
+    String downloadURL;
     Reference ref = FirebaseStorage.instance.ref().child(fileName);
     UploadTask uploadTask = ref.putFile(widget.image);
-    await uploadTask.whenComplete;
-    final String url = await ref.getDownloadURL();
-    FirebaseFirestore.instance
-        .collection('posts')
-        .add({'date': DateTime.now(), 'image': url, 'num_items': value});
+    uploadTask.whenComplete(() async {
+      downloadURL = await ref.getDownloadURL();
+    }).catchError((onError) {
+      print(onError);
+    });
+
+    FirebaseFirestore.instance.collection('posts').add(
+        {'date': DateTime.now(), 'image': downloadURL, 'num_items': value});
   }
 
   Widget uploadButton(BuildContext context) {

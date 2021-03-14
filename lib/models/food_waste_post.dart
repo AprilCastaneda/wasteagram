@@ -6,7 +6,6 @@ class FoodWastePost {
   int num_items;
   double latitude;
   double longitude;
-  GeoPoint location;
 
   FoodWastePost(
       {this.date, this.image, this.num_items, this.latitude, this.longitude});

@@ -29,13 +29,5 @@ class _CameraFabState extends State<CameraFab> {
     } else {
       return Center(child: CircularProgressIndicator());
     }
-    // } else {
-    // Navigator.of(context)
-    // .pushNamed(NewWasteScreen.routeName, arguments: image);
-    // return FloatingActionButton(
-    //   onPressed: () => Navigator.of(context)
-    //       .pushNamed(NewWasteScreen.routeName, arguments: image),
-    //   child: Icon(Icons.camera_alt),
-    // );
   }
 }

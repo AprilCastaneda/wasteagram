@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:location/location.dart';
+import '../widgets/get_location.dart';
 
 class FoodWastePost extends StatefulWidget {
   @override
@@ -10,6 +12,13 @@ class FoodWastePost extends StatefulWidget {
 class _FoodWastePostState extends State<FoodWastePost> {
   File image;
   final picker = ImagePicker();
+  LocationData locationData;
+
+  @override
+  void initState() {
+    super.initState();
+    getImage();
+  }
 
   void getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
