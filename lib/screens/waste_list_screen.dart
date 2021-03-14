@@ -38,12 +38,6 @@ class _WasteListScreenState extends State<WasteListScreen> {
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CameraFab(),
-      // floatingActionButton: Semantics(
-      //   child: CameraFab(),
-      //   button: true,
-      //   enabled: true,
-      //   onTapHint: 'Select an image',
-      // ),
     );
   }
 

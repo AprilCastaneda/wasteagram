@@ -15,6 +15,7 @@ class _CameraFabState extends State<CameraFab> {
   void getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     image = File(pickedFile.path);
+    Navigator.of(context).pushNamed(NewWasteScreen.routeName, arguments: image);
     setState(() {});
   }
 
@@ -26,13 +27,15 @@ class _CameraFabState extends State<CameraFab> {
         child: Icon(Icons.camera_alt),
       );
     } else {
-      Navigator.of(context)
-          .pushNamed(NewWasteScreen.routeName, arguments: image);
-      // return FloatingActionButton(
-      //   onPressed: () => Navigator.of(context)
-      //       .pushNamed(NewWasteScreen.routeName, arguments: image),
-      //   child: Icon(Icons.camera_alt),
-      // );
+      return Center(child: CircularProgressIndicator());
     }
+    // } else {
+    // Navigator.of(context)
+    // .pushNamed(NewWasteScreen.routeName, arguments: image);
+    // return FloatingActionButton(
+    //   onPressed: () => Navigator.of(context)
+    //       .pushNamed(NewWasteScreen.routeName, arguments: image),
+    //   child: Icon(Icons.camera_alt),
+    // );
   }
 }

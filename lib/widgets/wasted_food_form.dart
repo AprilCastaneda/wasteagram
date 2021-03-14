@@ -19,39 +19,78 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
   Widget build(BuildContext context) {
     if (widget.image == null) {
       return Center(child: CircularProgressIndicator());
-    }
-    return Container(
-        child: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-          Flexible(
-            flex: 2,
-            fit: FlexFit.loose,
-            child: Container(child: Image.file(widget.image)),
-          ),
-          Flexible(
-            flex: 1,
-            fit: FlexFit.loose,
-            child: Container(
-              child: Form(
-                key: formKey,
-                child: itemQuantityField(),
+    } else {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Image.file(widget.image),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                child: Form(
+                  key: formKey,
+                  child: itemQuantityField(),
+                ),
               ),
             ),
-          ),
-          Flexible(flex: 8, fit: FlexFit.loose, child: Spacer()),
-          Flexible(
-            flex: 1,
-            fit: FlexFit.loose,
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: Expanded(child: uploadButton()),
+            Expanded(
+              flex: 2,
+              child: Text(''),
             ),
-          ),
-        ])));
+            Expanded(
+              flex: 1,
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: uploadButton(),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
+  // @override
+  // Widget build(BuildContext context) {
+  //   if (widget.image == null) {
+  //     return Center(child: CircularProgressIndicator());
+  //   }
+  //   return Container(
+  //       child: Center(
+  //           child: Column(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //         Flexible(
+  //           flex: 2,
+  //           fit: FlexFit.loose,
+  //           child: Container(child: Image.file(widget.image)),
+  //         ),
+  //         Flexible(
+  //           flex: 1,
+  //           fit: FlexFit.loose,
+  //           child: Container(
+  //             child: Form(
+  //               key: formKey,
+  //               child: itemQuantityField(),
+  //             ),
+  //           ),
+  //         ),
+  //         Flexible(flex: 8, fit: FlexFit.loose, child: Spacer()),
+  //         Flexible(
+  //           flex: 1,
+  //           fit: FlexFit.loose,
+  //           child: Container(
+  //             width: double.infinity,
+  //             height: double.infinity,
+  //             child: Expanded(child: uploadButton()),
+  //           ),
+  //         ),
+  //       ])));
+  // }
 
   Widget itemQuantityField() {
     return Padding(

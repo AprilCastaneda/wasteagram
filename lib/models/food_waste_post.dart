@@ -4,15 +4,19 @@ class FoodWastePost {
   DateTime date;
   String image;
   int num_items;
+  double latitude;
+  double longitude;
   GeoPoint location;
 
-  FoodWastePost({this.date, this.image, this.num_items, this.location});
+  FoodWastePost(
+      {this.date, this.image, this.num_items, this.latitude, this.longitude});
 
   factory FoodWastePost.fromJSON(Map<String, dynamic> json) {
     return FoodWastePost(
         date: json['date'],
         image: json['image'],
         num_items: json['num_items'],
-        location: json['location']);
+        latitude: json['location'].getLatitude(),
+        longitude: json['location'].getLongitude());
   }
 }
