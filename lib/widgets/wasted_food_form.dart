@@ -1,6 +1,9 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import '../models/food_waste_post.dart';
 import '../screens/waste_list_screen.dart';
 
@@ -33,7 +36,7 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
               child: Container(
                 child: Form(
                   key: formKey,
-                  child: itemQuantityField(),
+                  child: itemQuantityField(context),
                 ),
               ),
             ),
@@ -46,7 +49,7 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
               child: Container(
                 width: double.infinity,
                 height: double.infinity,
-                child: uploadButton(),
+                child: uploadButton(context),
               ),
             ),
           ],
@@ -54,45 +57,8 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
       );
     }
   }
-  // @override
-  // Widget build(BuildContext context) {
-  //   if (widget.image == null) {
-  //     return Center(child: CircularProgressIndicator());
-  //   }
-  //   return Container(
-  //       child: Center(
-  //           child: Column(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //         Flexible(
-  //           flex: 2,
-  //           fit: FlexFit.loose,
-  //           child: Container(child: Image.file(widget.image)),
-  //         ),
-  //         Flexible(
-  //           flex: 1,
-  //           fit: FlexFit.loose,
-  //           child: Container(
-  //             child: Form(
-  //               key: formKey,
-  //               child: itemQuantityField(),
-  //             ),
-  //           ),
-  //         ),
-  //         Flexible(flex: 8, fit: FlexFit.loose, child: Spacer()),
-  //         Flexible(
-  //           flex: 1,
-  //           fit: FlexFit.loose,
-  //           child: Container(
-  //             width: double.infinity,
-  //             height: double.infinity,
-  //             child: Expanded(child: uploadButton()),
-  //           ),
-  //         ),
-  //       ])));
-  // }
 
-  Widget itemQuantityField() {
+  Widget itemQuantityField(BuildContext context) {
     return Padding(
         padding: EdgeInsets.symmetric(
             vertical: MediaQuery.of(context).size.height * .025,
@@ -115,13 +81,21 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
     return value.isEmpty ? 'Please enter a number' : null;
   }
 
-  void saveItemQuantity(String value) {
+  void saveItemQuantity(String value) async {
+    String fileName =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString() +
+            '.' +
+            basename(widget.image.path);
+    Reference ref = FirebaseStorage.instance.ref().child(fileName);
+    UploadTask uploadTask = ref.putFile(widget.image);
+    await uploadTask.whenComplete;
+    final String url = await ref.getDownloadURL();
     FirebaseFirestore.instance
         .collection('posts')
-        .add({'date': DateTime.now(), 'num_items': value});
+        .add({'date': DateTime.now(), 'image': url, 'num_items': value});
   }
 
-  Widget uploadButton() {
+  Widget uploadButton(BuildContext context) {
     return SizedBox(
         height: double.infinity,
         width: double.infinity,
@@ -129,11 +103,11 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
             child: Icon(Icons.cloud_upload,
                 size: MediaQuery.of(context).size.height * .1),
             onPressed: () async {
-              validateSaveUploadAndPop();
+              validateSaveUploadAndPop(context);
             }));
   }
 
-  void validateSaveUploadAndPop() {
+  void validateSaveUploadAndPop(BuildContext context) {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       Navigator.of(context).pushNamed(WasteListScreen.routeName);
