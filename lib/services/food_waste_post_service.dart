@@ -2,51 +2,25 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/food_waste_post.dart';
 import '../widgets/get_location.dart';
 
-class FoodWastePost extends StatefulWidget {
-  @override
-  _FoodWastePostState createState() => _FoodWastePostState();
-}
+class FoodWastePostService {
+  FoodWastePost post;
+  FoodWastePostService({this.post});
+  CollectionReference posts = FirebaseFirestore.instance.collection('posts');
 
-class _FoodWastePostState extends State<FoodWastePost> {
-  File image;
-  final picker = ImagePicker();
-  LocationData locationData;
-
-  @override
-  void initState() {
-    super.initState();
-    getImage();
-  }
-
-  void getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    image = File(pickedFile.path);
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (image == null) {
-      return Center(
-        child: RaisedButton(
-            child: Text('Select Photo'),
-            onPressed: () {
-              getImage();
-            }),
-      );
-    } else {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.file(image),
-            SizedBox(height: 40),
-            RaisedButton(child: Text('Post It!'), onPressed: () {}),
-          ],
-        ),
-      );
-    }
+  Future<void> addPost() {
+    return posts
+        .add({
+          'date': post.date,
+          'image': post.image,
+          'num_items': post.num_items,
+          'latitude': post.latitude,
+          'longitude': post.longitude,
+        })
+        .then((value) => print('Post added.'))
+        .catchError((error) => print('Failed to add post: $error'));
   }
 }

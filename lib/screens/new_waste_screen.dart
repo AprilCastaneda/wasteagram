@@ -13,28 +13,11 @@ class _NewWasteScreenState extends State<NewWasteScreen> {
   @override
   Widget build(BuildContext context) {
     File image = ModalRoute.of(context).settings.arguments;
-    // if (image == null) {
-    //   return Scaffold(
-    //       appBar: AppBar(
-    //         title: Text('New Post'),
-    //       ),
-    //       body: Center(child: CircularProgressIndicator()));
-    // } else {
-    //   return Scaffold(
     return Scaffold(
       appBar: AppBar(
         title: Text('New Post'),
       ),
       body: WastedFoodForm(image: image),
     );
-    // body: Center(
-    //   child: Column(
-    //     mainAxisAlignment: MainAxisAlignment.start,
-    //     children: [
-    //       // Image.file(image),
-    //       WastedFoodForm(image: image),
-    //     ],
-    //   ),
-    // ));
   }
 }

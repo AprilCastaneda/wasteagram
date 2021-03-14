@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:location/location.dart';
 import '../models/food_waste_post.dart';
+import '../widgets/get_location.dart';
 import '../screens/waste_list_screen.dart';
+import '../services/food_waste_post_service.dart';
+import '../services/photo_storage_service.dart';
 
 class WastedFoodForm extends StatefulWidget {
   final File image;
@@ -17,6 +21,15 @@ class WastedFoodForm extends StatefulWidget {
 
 class _WastedFoodFormState extends State<WastedFoodForm> {
   final formKey = GlobalKey<FormState>();
+  int numItems;
+  String url;
+  LocationData locData;
+  double lat, long;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -82,21 +95,7 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
   }
 
   void saveItemQuantity(String value) async {
-    String fileName =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString() +
-            '.' +
-            basename(widget.image.path);
-    String downloadURL;
-    Reference ref = FirebaseStorage.instance.ref().child(fileName);
-    UploadTask uploadTask = ref.putFile(widget.image);
-    uploadTask.whenComplete(() async {
-      downloadURL = await ref.getDownloadURL();
-    }).catchError((onError) {
-      print(onError);
-    });
-
-    FirebaseFirestore.instance.collection('posts').add(
-        {'date': DateTime.now(), 'image': downloadURL, 'num_items': value});
+    numItems = int.parse(value);
   }
 
   Widget uploadButton(BuildContext context) {
@@ -111,9 +110,31 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
             }));
   }
 
-  void validateSaveUploadAndPop(BuildContext context) {
+  void validateSaveUploadAndPop(BuildContext context) async {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
+
+      var photoStorageService = PhotoStorageService(image: widget.image);
+      await photoStorageService.storeImage();
+      url = photoStorageService.url;
+
+      var locationService = GetLocation();
+      await locationService.retrieveLocation();
+      locData = locationService.locationData;
+      lat = locData.latitude;
+      long = locData.longitude;
+
+      var post = FoodWastePost(
+        date: DateTime.now(),
+        image: url,
+        num_items: numItems,
+        latitude: lat,
+        longitude: long,
+      );
+
+      var foodWastePostService = FoodWastePostService(post: post);
+      await foodWastePostService.addPost();
+
       Navigator.of(context).pushNamed(WasteListScreen.routeName);
     }
   }

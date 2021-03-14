@@ -1,25 +1,37 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 
-Location location = new Location();
+class GetLocation {
+  LocationData _locationData;
+  var locationService = Location();
 
-bool _serviceEnabled;
-PermissionStatus _permissionGranted;
-LocationData _locationData;
+  Future<void> retrieveLocation() async {
+    try {
+      var _serviceEnabled = await locationService.serviceEnabled();
+      if (!_serviceEnabled) {
+        _serviceEnabled = await locationService.requestService();
+        if (!_serviceEnabled) {
+          print('Failed to enable service. Returning.');
+          return;
+        }
+      }
 
-Future<LocationData> getLocation() async {
-  _serviceEnabled = await location.serviceEnabled();
-  if (!_serviceEnabled) {
-    _serviceEnabled = await location.requestService();
-    if (!_serviceEnabled) {
-      return null;
+      var _permissionGranted = await locationService.hasPermission();
+      if (_permissionGranted == PermissionStatus.denied) {
+        _permissionGranted = await locationService.requestPermission();
+        if (_permissionGranted != PermissionStatus.granted) {
+          print('Location service permission not granted. Returning.');
+        }
+      }
+
+      _locationData = await locationService.getLocation();
+    } on PlatformException catch (e) {
+      print('Error: ${e.toString()}, code: ${e.code}');
+      _locationData = null;
     }
+    _locationData = await locationService.getLocation();
   }
-  _permissionGranted = await location.hasPermission();
-  if (_permissionGranted == PermissionStatus.denied) {
-    _permissionGranted = await location.requestPermission();
-    if (_permissionGranted != PermissionStatus.granted) {
-      return null;
-    }
-  }
-  _locationData = await location.getLocation();
+
+  LocationData get locationData => _locationData;
 }
