@@ -20,18 +20,37 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
     if (widget.image == null) {
       return Center(child: CircularProgressIndicator());
     }
-    return Form(
-      key: formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.file(widget.image),
-          itemQuantityField(),
-          uploadButton(),
-        ],
-      ),
-    );
+    return Container(
+        child: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+          Flexible(
+            flex: 2,
+            fit: FlexFit.loose,
+            child: Container(child: Image.file(widget.image)),
+          ),
+          Flexible(
+            flex: 1,
+            fit: FlexFit.loose,
+            child: Container(
+              child: Form(
+                key: formKey,
+                child: itemQuantityField(),
+              ),
+            ),
+          ),
+          Flexible(flex: 8, fit: FlexFit.loose, child: Spacer()),
+          Flexible(
+            flex: 1,
+            fit: FlexFit.loose,
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: Expanded(child: uploadButton()),
+            ),
+          ),
+        ])));
   }
 
   Widget itemQuantityField() {
@@ -64,11 +83,15 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
   }
 
   Widget uploadButton() {
-    return RaisedButton(
-        child: Icon(Icons.cloud_upload),
-        onPressed: () async {
-          validateSaveUploadAndPop();
-        });
+    return SizedBox(
+        height: double.infinity,
+        width: double.infinity,
+        child: RaisedButton(
+            child: Icon(Icons.cloud_upload,
+                size: MediaQuery.of(context).size.height * .1),
+            onPressed: () async {
+              validateSaveUploadAndPop();
+            }));
   }
 
   void validateSaveUploadAndPop() {

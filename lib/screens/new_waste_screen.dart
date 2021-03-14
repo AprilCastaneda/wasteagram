@@ -22,17 +22,19 @@ class _NewWasteScreenState extends State<NewWasteScreen> {
     // } else {
     //   return Scaffold(
     return Scaffold(
-        appBar: AppBar(
-          title: Text('New Post'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // Image.file(image),
-              WastedFoodForm(image: image),
-            ],
-          ),
-        ));
+      appBar: AppBar(
+        title: Text('New Post'),
+      ),
+      body: WastedFoodForm(image: image),
+    );
+    // body: Center(
+    //   child: Column(
+    //     mainAxisAlignment: MainAxisAlignment.start,
+    //     children: [
+    //       // Image.file(image),
+    //       WastedFoodForm(image: image),
+    //     ],
+    //   ),
+    // ));
   }
 }
