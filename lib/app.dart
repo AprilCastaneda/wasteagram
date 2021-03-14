@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'screens/waste_list_screen.dart';
+import 'screens/new_waste_screen.dart';
 
 // import 'package:share/share.dart';
 
@@ -23,7 +24,7 @@ class _AppState extends State<App> {
         routes: {
           WasteListScreen.routeName: (context) => WasteListScreen(),
           // WasteDetailScreen.routeName: (context) => WasteDetailScreen(),
-          // NewWasteScreen.routeName: (context) => NewWasteScreen(),
+          NewWasteScreen.routeName: (context) => NewWasteScreen(),
         });
   }
 }

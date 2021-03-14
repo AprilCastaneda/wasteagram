@@ -1,3 +1,84 @@
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import '../models/food_waste_post.dart';
+import '../screens/waste_list_screen.dart';
+
+class WastedFoodForm extends StatefulWidget {
+  final File image;
+
+  WastedFoodForm({this.image});
+  @override
+  _WastedFoodFormState createState() => _WastedFoodFormState();
+}
+
+class _WastedFoodFormState extends State<WastedFoodForm> {
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.image == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+    return Form(
+      key: formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.file(widget.image),
+          itemQuantityField(),
+          uploadButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget itemQuantityField() {
+    return Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height * .025,
+            horizontal: MediaQuery.of(context).size.width * .025),
+        child: TextFormField(
+          textAlign: TextAlign.center,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            hintText: 'Number of Wasted Items',
+            // hintText: Translations(Localizations.localeOf(context))
+            //     .quantityFieldHint),
+          ),
+          style: Theme.of(context).textTheme.headline6,
+          validator: validateItemQuantity,
+          onSaved: saveItemQuantity,
+        ));
+  }
+
+  String validateItemQuantity(String value) {
+    return value.isEmpty ? 'Please enter a number' : null;
+  }
+
+  void saveItemQuantity(String value) {
+    FirebaseFirestore.instance
+        .collection('posts')
+        .add({'date': DateTime.now(), 'num_items': value});
+  }
+
+  Widget uploadButton() {
+    return RaisedButton(
+        child: Icon(Icons.cloud_upload),
+        onPressed: () async {
+          validateSaveUploadAndPop();
+        });
+  }
+
+  void validateSaveUploadAndPop() {
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
+      Navigator.of(context).pushNamed(WasteListScreen.routeName);
+    }
+  }
+}
+
 // {
 //   void initState() {}
 
