@@ -1,11 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 import '../models/food_waste_post.dart';
-import '../widgets/wasted_food_form.dart';
 
 class WasteDetailScreen extends StatefulWidget {
   static const routeName = 'wasteDetailScreen';

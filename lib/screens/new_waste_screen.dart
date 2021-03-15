@@ -9,7 +9,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as Path;
 import 'package:transparent_image/transparent_image.dart';
 import '../db/food_waste_dto.dart';
-import '../widgets/wasted_food_form.dart';
 
 class NewWasteScreen extends StatefulWidget {
   static const routeName = 'newWasteScreen';
@@ -131,9 +130,6 @@ class _NewWasteScreenState extends State<NewWasteScreen> {
                       placeholder: kTransparentImage,
                       image: foodWasteDTO.image,
                     ),
-              // child: foodWasteDTO.image == null
-              //     ? CircularProgressIndicator()
-              //     : Image.network(foodWasteDTO.image),
             ),
             Expanded(
                 flex: 1,
@@ -172,12 +168,15 @@ class _NewWasteScreenState extends State<NewWasteScreen> {
       child: SizedBox(
           height: MediaQuery.of(context).size.height * .15,
           width: double.infinity,
-          child: GestureDetector(
-              child: Icon(Icons.cloud_upload,
-                  size: MediaQuery.of(context).size.height * .1),
-              onTap: () {
-                validateSaveUploadAndPop(context);
-              })),
+          child: Container(
+            color: Colors.blue,
+            child: GestureDetector(
+                child: Icon(Icons.cloud_upload,
+                    size: MediaQuery.of(context).size.height * .1),
+                onTap: () {
+                  validateSaveUploadAndPop(context);
+                }),
+          )),
       label: 'Upload New Food Waste Post',
     );
   }

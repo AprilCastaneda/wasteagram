@@ -14,7 +14,7 @@ class FoodWastePost {
       this.latitude,
       this.longitude});
 
-  factory FoodWastePost.fromJSON(Map<String, dynamic> json) {
+  factory FoodWastePost.fromMap(Map<String, dynamic> json) {
     return FoodWastePost(
         date: json['date'],
         image: json['image'],
