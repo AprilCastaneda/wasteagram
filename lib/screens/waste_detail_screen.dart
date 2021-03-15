@@ -31,29 +31,44 @@ class _WasteDetailScreenState extends State<WasteDetailScreen> {
       ),
       body: Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text(
-              // foodWastePost.getDate.toString(),
-              DateFormat('EEEE, MMMM d, yyyy').format(foodWastePost.getDate),
-              style: Theme.of(context).textTheme.headline6,
+            Spacer(flex: 1),
+            Expanded(
+              flex: 2,
+              child: Text(
+                // foodWastePost.getDate.toString(),
+                DateFormat('EEEE, MMMM d, yyyy').format(foodWastePost.getDate),
+                style: Theme.of(context).textTheme.headline6,
+              ),
             ),
-            foodWastePost.getImage == null
-                ? CircularProgressIndicator()
-                : FadeInImage.memoryNetwork(
-                    placeholder: kTransparentImage,
-                    image: foodWastePost.getImage,
-                  ),
-            Text(
-              foodWastePost.getNumItems.toString() + ' items',
-              style: Theme.of(context).textTheme.headline5,
+            Expanded(
+              flex: 5,
+              child: foodWastePost.getImage == null
+                  ? CircularProgressIndicator()
+                  : FadeInImage.memoryNetwork(
+                      placeholder: kTransparentImage,
+                      image: foodWastePost.getImage,
+                    ),
             ),
-            Text(
-              'Location(' +
-                  foodWastePost.getLatitude.toString() +
-                  ', ' +
-                  foodWastePost.getLongitude.toString() +
-                  ')',
-              style: Theme.of(context).textTheme.bodyText1,
+            Spacer(flex: 1),
+            Expanded(
+              flex: 3,
+              child: Text(
+                foodWastePost.getNumItems.toString() + ' items',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Text(
+                'Location(' +
+                    foodWastePost.getLatitude.toStringAsFixed(2) +
+                    ', ' +
+                    foodWastePost.getLongitude.toStringAsFixed(2) +
+                    ')',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
             ),
           ],
         ),
