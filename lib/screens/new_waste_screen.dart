@@ -181,3 +181,18 @@ class _NewWasteScreenState extends State<NewWasteScreen> {
     );
   }
 }
+// class Translations {
+//   Locale locale;
+//   Translations({this.locale});
+
+//   final labels = {
+//     'en': {
+//       'quantityFieldHint': "number of Wasted Items"
+//     },
+//     'tlh': {
+//       'quantityFieldHInt': 'ARGGHBARGH'
+//     }
+//   };
+
+//   String get quantityFieldHint => labels[locale.languageCode]['quantityFieldHint'];
+// }
