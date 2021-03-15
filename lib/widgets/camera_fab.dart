@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../screens/new_waste_screen.dart';
 
 class CameraFab extends StatelessWidget {

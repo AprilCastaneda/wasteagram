@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../widgets/camera_fab.dart';
 import '../screens/waste_detail_screen.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WasteListScreen extends StatefulWidget {
   static const routeName = '/';

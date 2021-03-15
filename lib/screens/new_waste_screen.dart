@@ -1,13 +1,16 @@
 import 'dart:io';
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart' as Path;
 import 'package:transparent_image/transparent_image.dart';
+import 'package:path/path.dart' as Path;
+
 import '../db/food_waste_dto.dart';
 
 class NewWasteScreen extends StatefulWidget {

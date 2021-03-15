@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
+
 import '../models/food_waste_post.dart';
 
 class WasteDetailScreen extends StatefulWidget {
@@ -37,7 +39,6 @@ class _WasteDetailScreenState extends State<WasteDetailScreen> {
             Expanded(
               flex: 2,
               child: Text(
-                // foodWastePost.getDate.toString(),
                 DateFormat('EEEE, MMMM d, yyyy').format(foodWastePost.getDate),
                 style: Theme.of(context).textTheme.headline6,
               ),
