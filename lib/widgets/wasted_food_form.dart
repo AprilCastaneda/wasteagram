@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -25,11 +26,8 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
   String url;
   LocationData locData;
   double lat, long;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
+  FoodWastePost post = FoodWastePost();
+  DateTime date;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +92,7 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
     return value.isEmpty ? 'Please enter a number' : null;
   }
 
-  void saveItemQuantity(String value) async {
+  void saveItemQuantity(String value) {
     numItems = int.parse(value);
   }
 
@@ -114,29 +112,37 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
 
-      var photoStorageService = PhotoStorageService(image: widget.image);
-      await photoStorageService.storeImage();
-      url = photoStorageService.url;
+      var newPost = await getPost();
 
-      var locationService = GetLocation();
-      await locationService.retrieveLocation();
-      locData = locationService.locationData;
-      lat = locData.latitude;
-      long = locData.longitude;
-
-      var post = FoodWastePost(
-        date: DateTime.now(),
-        image: url,
-        num_items: numItems,
-        latitude: lat,
-        longitude: long,
-      );
-
-      var foodWastePostService = FoodWastePostService(post: post);
-      await foodWastePostService.addPost();
-
-      Navigator.of(context).pushNamed(WasteListScreen.routeName);
+      if (newPost == null) {
+        CircularProgressIndicator();
+      } else {
+        var foodWastePostService = FoodWastePostService();
+        await foodWastePostService.addPost(newPost);
+        Navigator.of(context).pop();
+      }
     }
+  }
+
+  Future<FoodWastePost> getPost() async {
+    FoodWastePost newPost;
+    newPost.num_items = numItems;
+    newPost.date = DateTime.now();
+
+    var photoStorageService = PhotoStorageService(image: widget.image);
+    await photoStorageService.uploadImage().whenComplete(() {
+      var img = photoStorageService.url;
+      newPost.image = img;
+    }).whenComplete(() {
+      return newPost;
+    });
+
+    var locationService = GetLocation();
+    await locationService.retrieveLocation().whenComplete(() {
+      var locData = locationService.locationData;
+      newPost.latitude = locData.latitude;
+      newPost.longitude = locData.longitude;
+    });
   }
 }
 
