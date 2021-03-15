@@ -126,13 +126,11 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
 
   Future<FoodWastePost> getPost() async {
     FoodWastePost newPost;
-    newPost.num_items = numItems;
-    newPost.date = DateTime.now();
 
     var photoStorageService = PhotoStorageService(image: widget.image);
     await photoStorageService.uploadImage().whenComplete(() {
       var img = photoStorageService.url;
-      newPost.image = img;
+      print('img: $img');
     }).whenComplete(() {
       return newPost;
     });
@@ -140,8 +138,6 @@ class _WastedFoodFormState extends State<WastedFoodForm> {
     var locationService = GetLocation();
     await locationService.retrieveLocation().whenComplete(() {
       var locData = locationService.locationData;
-      newPost.latitude = locData.latitude;
-      newPost.longitude = locData.longitude;
     });
   }
 }

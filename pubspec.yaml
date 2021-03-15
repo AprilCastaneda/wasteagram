@@ -37,6 +37,7 @@ dependencies:
   location: ^4.1.1
 
   image_picker: ^0.7.2+1
+  transparent_image: ^1.0.0
 
   # share: ^2.0.1
 
